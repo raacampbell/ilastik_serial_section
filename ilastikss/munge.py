@@ -198,7 +198,10 @@ def generate_3D_label_volume(label_dir, downsample_dir, label=0):
             t_slice += 1
 
 
-    OUT = skimage.transform.resize(OUT, target_size, anti_aliasing=True)
+    OUT = skimage.transform.resize(OUT.astype(float), target_size, anti_aliasing=False)
+
+    label_fname = ('ilastik_label_%d.tif' % label)
+    skimage.io.imsave(join(downsample_dir,label_fname), OUT.astype('int16'), compression="zlib")
 
     return OUT
 

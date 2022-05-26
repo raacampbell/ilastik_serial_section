@@ -63,10 +63,18 @@ files=ilastikss.io.get_files_with_extension_from_dir(ext='.h5')
 We can now generate a 3D downsampled stack of these. We select label 2 in this case as the label
 we want to retain.
 ```
-OUT=ilastikss.munge.generate_3D_label_volume(t_dir='./',rescale=0.1,label=2)
+# Directory where label files exist
+S = "/mnt/btrfs/TM_RML_FVB_120dpi/8bit_chan2/size_050/attempt03"
+
+# Downsampled stacks dir into which we will add the labels image stack
+D = "DS_VERSION/downsampled_stacks/025_micron/"
+
+# Generate the downsampled 3D stack using label 2, which in this case the label of interest because
+# label 1 is used to denote false positives. This function will save a compressed multi-page TIFF
+# into D and also use existing stacks in this directory to determine the correct image size for the
+# labels stack.
+
+ilastikss.munge.generate_3D_label_volume(S,D,label=2)
 ```
 
-This can be saved as a multi-page TIFF.
-```
-skimage.io.imsave('LABEL_3D.tiff',OUT)
-```
+
